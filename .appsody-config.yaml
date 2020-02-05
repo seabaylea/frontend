@@ -1,0 +1,2 @@
+project-name: frontend
+stack: docker.io/appsody/nodejs-express:0.3

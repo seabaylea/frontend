@@ -1,0 +1,52 @@
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  annotations:
+    image.opencontainers.org/created: "2020-01-30T15:38:38Z"
+    stack.appsody.dev/authors: Chris Bailey <cnbailey@gmail.com>, Neeraj Laad <neeraj.laad@gmail.com>
+    stack.appsody.dev/configured: docker.io/appsody/nodejs-express:0.3
+    stack.appsody.dev/created: "2019-12-16T11:54:31Z"
+    stack.appsody.dev/description: Express web framework for Node.js
+    stack.appsody.dev/licenses: Apache-2.0
+    stack.appsody.dev/tag: docker.io/appsody/nodejs-express:0.3.0
+    stack.appsody.dev/title: Node.js Express
+  creationTimestamp: null
+  labels:
+    image.opencontainers.org/title: frontend
+    stack.appsody.dev/id: nodejs-express
+    stack.appsody.dev/version: 0.3.0
+  name: frontend
+spec:
+  applicationImage: dev.local/frontend
+  createKnativeService: false
+  expose: true
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /live
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  monitoring:
+    labels:
+      k8s-app: frontend
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /ready
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+    timeoutSeconds: 1
+  service:
+    annotations:
+      prometheus.io/scrape: "true"
+    consumes:
+    - category: openapi
+      name: backend
+      namespace: default
+    port: 3000
+    type: NodePort
+  stack: nodejs-express
+  version: 1.0.0
+status: {}
